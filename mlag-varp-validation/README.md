@@ -15,7 +15,7 @@ pip install robotframework-sshlibrary
 Topology and Setup
 ------------
 
-The topology as shown in the [diagram](https://github.com/skanagal/EOS_Certifications/blob/master/robot-demo/topology.jpg) is simple with spines in MLAG and running VARP. VARP is configured for VLAN 100, the leafs have VLAN 100 SVIs and their default-gateway points to the VARP IP on spines. the device configs can be found in the "device-configs" directory for reference.
+The topology as shown in the [diagram](https://github.com/arista-eosext/robot-examples/blob/master/mlag-varp-validation/topology.jpg) is simple with spines in MLAG and running VARP. VARP is configured for VLAN 100, the leafs have VLAN 100 SVIs and their default-gateway points to the VARP IP on spines. the device configs can be found in the "device-configs" directory for reference.
 
 
 Test Suites

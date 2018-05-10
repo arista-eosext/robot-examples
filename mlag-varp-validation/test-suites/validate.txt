@@ -2,8 +2,7 @@
 
 *** Settings ***
 Documentation	A simple Robot Framework test suite to Validate Services
-...    Configs
-...
+...    Validate MLAG and VARP on spines. Validate ICMP reachability to gateways from leafs
 
 Library           AristaLibrary
 Library           Expect
