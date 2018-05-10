@@ -1,0 +1,62 @@
+!
+hostname spine-A
+!
+username robot-user privilege 15 role network-admin secret 0 arista
+!
+vlan 100
+   name varp-vlan
+!
+vlan 4094
+   name mlag-vlan
+   trunk group mlag-trunk
+!
+interface Port-Channel1
+   switchport mode trunk
+   mlag 1
+!
+interface Port-Channel2
+   switchport mode trunk
+   mlag 2
+!
+interface Port-Channel101
+   switchport mode trunk
+   switchport trunk group mlag-trunk
+!
+interface Ethernet1
+   channel-group 101 mode active
+!
+interface Ethernet2
+   channel-group 1 mode active
+!
+interface Ethernet3
+   channel-group 2 mode active
+!
+interface Management1
+   ip address 192.168.56.11/24
+!
+interface Vlan100
+   ip address 100.1.1.1/24
+   ipv6 address 3ffe:100::1/64
+   ip virtual-router address 100.1.1.10
+   ipv6 virtual-router address 3ffe:100::10
+!
+interface Vlan4094
+   no autostate
+   ip address 192.168.1.1/30
+!
+ip virtual-router mac-address 00:1c:73:00:00:a0
+!
+ip routing
+!
+mlag configuration
+   domain-id mlag-domain
+   local-interface Vlan4094
+   peer-address 192.168.1.2
+   peer-link Port-Channel101
+!
+management api http-commands
+   no protocol https
+   protocol http
+   no shutdown
+!
+end

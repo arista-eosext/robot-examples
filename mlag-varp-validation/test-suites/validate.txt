@@ -1,0 +1,68 @@
+###A simple robot test file
+
+*** Settings ***
+Documentation	A simple Robot Framework test suite to Validate Services
+...    Configs
+...
+
+Library           AristaLibrary
+Library           Expect
+Library	          Collections
+Library           OperatingSystem
+Library           String
+
+Suite Setup	Connect To Switches
+Suite Teardown	Clear All Connections
+
+*** Test Cases ***
+
+Check MLAG Status on spine-A
+  ${mlag_status}=    Get Command Output   switch_id=1   cmd=show mlag
+  Log   ${mlag_status}
+  Expect   state   to be   active
+
+Check MLAG Status on spine-B
+  ${mlag_status}=    Get Command Output   switch_id=2   cmd=show mlag
+  Log   ${mlag_status}
+  Expect   state   to be   active
+
+
+Check VARP Status on spine-A
+  Change To Switch   1
+  ${varp_status}=  Run Cmds  show ip virtual-router
+  Log   ${varp_status}
+  Should Be Equal   ${varp_status['result'][0]['virtualRouters'][0]['protocolStatus']}   up
+
+
+Check VARP Status on spine-B
+  Change To Switch   2
+  ${varp_status}=  Run Cmds  show ip virtual-router
+  Log   ${varp_status}
+  Should Be Equal   ${varp_status['result'][0]['virtualRouters'][0]['protocolStatus']}   up
+
+
+Test if ping to IPv4 VARP Gateway passes from leaf-A
+  Change To Switch   3
+  ${ping_output}=    Run Cmds   ping 100.1.1.10   encoding=text
+  ${result}=	Get From Dictionary	${ping_output}	result
+  ${match}	${group1}=	Should Match Regexp	${result[0]['output']}	(\\d+)% packet loss
+  Should Be Equal As Integers	${group1}	0	msg="Packets lost percent not zero!!!"
+
+
+Test if ping to IPv4 VARP Gateway passes from leaf-B
+  Change To Switch   4
+  ${ping_output}=    Run Cmds   ping 100.1.1.10   encoding=text
+  Log  ${ping_output}
+  ${result}=	Get From Dictionary	${ping_output}	result
+  ${match}	${group1}=	Should Match Regexp	${result[0]['output']}	(\\d+)% packet loss
+  Should Be Equal As Integers	${group1}	0	msg="Packets lost percent not zero!!!"
+
+
+*** Keywords ***
+
+Connect To Switches
+	[Documentation]	Establish connection to a switch which gets used by test cases.
+  Connect To	host=${spine_A}	transport=${TPORT}	username=${UNAME}	password=${PWD}	port=${CONN_PORT}
+  Connect To	host=${spine_B}	transport=${TPORT}	username=${UNAME}	password=${PWD}	port=${CONN_PORT}
+  Connect To	host=${leaf_A}	transport=${TPORT}	username=${UNAME}	password=${PWD}	port=${CONN_PORT}
+  Connect To	host=${leaf_B}	transport=${TPORT}	username=${UNAME}	password=${PWD}	port=${CONN_PORT}

@@ -1,0 +1,35 @@
+!
+hostname leaf-B
+!
+username robot-user privilege 15 role network-admin secret 0 arista
+!
+vlan 100
+   name varp-vlan
+!
+interface Port-Channel2
+   switchport mode trunk
+!
+interface Ethernet1
+   channel-group 2 mode active
+!
+interface Ethernet2
+   channel-group 2 mode active
+!
+interface Management1
+   ip address 192.168.56.14/24
+!
+interface Vlan100
+   shutdown
+   ip address 100.1.1.4/24
+   ipv6 address 3ffe:100::4/64
+!
+ip route 0.0.0.0/0 100.1.1.10
+!
+ip routing
+!
+management api http-commands
+   no protocol https
+   protocol http
+   no shutdown
+!
+end

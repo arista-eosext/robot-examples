@@ -1,0 +1,8 @@
+TPORT: http
+CONN_PORT: 80
+spine_A: 192.168.56.11
+spine_B: 192.168.56.12
+leaf_A: 192.168.56.13
+leaf_B: 192.168.56.14
+UNAME: robot-user
+PWD: arista

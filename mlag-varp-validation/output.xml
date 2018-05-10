@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180510 13:02:10.488" generator="Robot 3.0.2 (Python 2.7.14 on darwin)">
+<suite source="/Users/sureshk/EOS_Certifications/robot-demo/test-suites/deploy-and-validate.txt" id="s1" name="Deploy-And-Validate">
+<kw type="setup" name="Connect To Switches">
+<doc>Establish connection to a switch which gets used by test cases.</doc>
+<kw name="Connect To" library="AristaLibrary">
+<doc>This is the cornerstone of all testing. The Connect To</doc>
+<arguments>
+<arg>host=${spine_A}</arg>
+<arg>transport=${TPORT}</arg>
+<arg>username=${UNAME}</arg>
+<arg>password=${PWD}</arg>
+<arg>port=${CONN_PORT}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:10.631" level="INFO">Created connection to http://robot-user:****@192.168.56.11:80/command-api: model: vEOS, serial: , systemMAC: 08:00:27:ef:df:a2, version: 4.20.1F, lastBootTime: 1525968828.14</msg>
+<status status="PASS" endtime="20180510 13:02:10.631" starttime="20180510 13:02:10.567"></status>
+</kw>
+<kw name="Connect To" library="AristaLibrary">
+<doc>This is the cornerstone of all testing. The Connect To</doc>
+<arguments>
+<arg>host=${spine_B}</arg>
+<arg>transport=${TPORT}</arg>
+<arg>username=${UNAME}</arg>
+<arg>password=${PWD}</arg>
+<arg>port=${CONN_PORT}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:10.688" level="INFO">Created connection to http://robot-user:****@192.168.56.12:80/command-api: model: vEOS, serial: , systemMAC: 08:00:27:9c:c4:83, version: 4.20.1F, lastBootTime: 1525968969.95</msg>
+<status status="PASS" endtime="20180510 13:02:10.688" starttime="20180510 13:02:10.632"></status>
+</kw>
+<kw name="Connect To" library="AristaLibrary">
+<doc>This is the cornerstone of all testing. The Connect To</doc>
+<arguments>
+<arg>host=${leaf_A}</arg>
+<arg>transport=${TPORT}</arg>
+<arg>username=${UNAME}</arg>
+<arg>password=${PWD}</arg>
+<arg>port=${CONN_PORT}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:10.748" level="INFO">Created connection to http://robot-user:****@192.168.56.13:80/command-api: model: vEOS, serial: , systemMAC: 08:00:27:67:aa:33, version: 4.20.1F, lastBootTime: 1525968898.11</msg>
+<status status="PASS" endtime="20180510 13:02:10.749" starttime="20180510 13:02:10.688"></status>
+</kw>
+<kw name="Connect To" library="AristaLibrary">
+<doc>This is the cornerstone of all testing. The Connect To</doc>
+<arguments>
+<arg>host=${leaf_B}</arg>
+<arg>transport=${TPORT}</arg>
+<arg>username=${UNAME}</arg>
+<arg>password=${PWD}</arg>
+<arg>port=${CONN_PORT}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:10.806" level="INFO">Created connection to http://robot-user:****@192.168.56.14:80/command-api: model: vEOS, serial: , systemMAC: 08:00:27:f0:3b:d2, version: 4.20.1F, lastBootTime: 1525968886.15</msg>
+<status status="PASS" endtime="20180510 13:02:10.806" starttime="20180510 13:02:10.749"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:10.806" starttime="20180510 13:02:10.567"></status>
+</kw>
+<test id="s1-t1" name="Enable MLAG on spine-B">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:10.807" starttime="20180510 13:02:10.807"></status>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>mlag configuration</arg>
+<arg>no shutdown</arg>
+</arguments>
+<assign>
+<var>@{cmds}</var>
+</assign>
+<msg timestamp="20180510 13:02:10.807" level="INFO">@{cmds} = [ mlag configuration | no shutdown ]</msg>
+<status status="PASS" endtime="20180510 13:02:10.807" starttime="20180510 13:02:10.807"></status>
+</kw>
+<kw name="Configure" library="AristaLibrary">
+<doc>The Config keyword lets you configures the node with the specified</doc>
+<arguments>
+<arg>${cmds}</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:10.822" starttime="20180510 13:02:10.808"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:10.822" critical="yes" starttime="20180510 13:02:10.806"></status>
+</test>
+<test id="s1-t2" name="Enable VLAN 100 SVI on leaf-B">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>4</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:10.823" starttime="20180510 13:02:10.823"></status>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>interface Vlan 100</arg>
+<arg>no shutdown</arg>
+</arguments>
+<assign>
+<var>@{cmds}</var>
+</assign>
+<msg timestamp="20180510 13:02:10.824" level="INFO">@{cmds} = [ interface Vlan 100 | no shutdown ]</msg>
+<status status="PASS" endtime="20180510 13:02:10.824" starttime="20180510 13:02:10.823"></status>
+</kw>
+<kw name="Configure" library="AristaLibrary">
+<doc>The Config keyword lets you configures the node with the specified</doc>
+<arguments>
+<arg>${cmds}</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:10.840" starttime="20180510 13:02:10.824"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:10.840" critical="yes" starttime="20180510 13:02:10.823"></status>
+</test>
+<test id="s1-t3" name="Pause few seconds for MLAG to sync">
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>15</arg>
+</arguments>
+<msg timestamp="20180510 13:02:25.844" level="INFO">Slept 15 seconds</msg>
+<status status="PASS" endtime="20180510 13:02:25.844" starttime="20180510 13:02:10.841"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:25.845" critical="yes" starttime="20180510 13:02:10.840"></status>
+</test>
+<test id="s1-t4" name="Check MLAG Status on spine-A">
+<kw name="Get Command Output" library="Expect">
+<doc>Execute the specified command on the named switch and store the</doc>
+<arguments>
+<arg>switch_id=1</arg>
+<arg>cmd=show mlag</arg>
+</arguments>
+<assign>
+<var>${mlag_status}</var>
+</assign>
+<msg timestamp="20180510 13:02:25.905" level="INFO">${mlag_status} = {1: {u'localInterface': u'Vlan4094', u'domainId': u'mlag-domain', u'peerLink': u'Port-Channel101', u'localIntfStatus': u'up', u'reloadDelayNonMlag': 300, u'peerAddress': u'192.168.1.2', u'configSanity...</msg>
+<status status="PASS" endtime="20180510 13:02:25.905" starttime="20180510 13:02:25.846"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${mlag_status}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:25.906" level="INFO">{1: {u'localInterface': u'Vlan4094', u'domainId': u'mlag-domain', u'peerLink': u'Port-Channel101', u'localIntfStatus': u'up', u'reloadDelayNonMlag': 300, u'peerAddress': u'192.168.1.2', u'configSanity': u'consistent', u'portsErrdisabled': False, u'state': u'active', u'reloadDelay': 300, u'systemId': u'0a:00:27:9c:c4:83', u'negStatus': u'connected', u'peerLinkStatus': u'up', u'mlagPorts': {u'Disabled': 0, u'Active-partial': 0, u'Configured': 0, u'Inactive': 0, u'Active-full': 2}}}</msg>
+<status status="PASS" endtime="20180510 13:02:25.906" starttime="20180510 13:02:25.905"></status>
+</kw>
+<kw name="Expect" library="Expect">
+<doc>This keyword provides a method of testing various types of values</doc>
+<arguments>
+<arg>state</arg>
+<arg>to be</arg>
+<arg>active</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:25.906" starttime="20180510 13:02:25.906"></status>
+</kw>
+<kw name="Record Output" library="Expect">
+<doc>Log the provided command. If no command is provided then log the</doc>
+<arguments>
+<arg>switch_id=1</arg>
+<arg>cmd=show mlag</arg>
+</arguments>
+<assign>
+<var>${cli_output}</var>
+</assign>
+<msg timestamp="20180510 13:02:25.926" level="INFO">MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.2
+peer-link           :     Port-Channel101
+peer-config         :          consistent
+                                         
+MLAG Status:       
+state               :              Active
+negotiation status  :           Connected
+peer-link status    :                  Up
+local-int status    :                  Up
+system-id           :   0a:00:27:9c:c4:83
+                                         
+MLAG Ports:        
+Disabled            :                   0
+Configured          :                   0
+Inactive            :                   0
+Active-partial      :                   0
+Active-full         :                   2
+
+</msg>
+<msg timestamp="20180510 13:02:25.926" level="INFO">${cli_output} = MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.2
+peer-link           :     Port-Channel101
+peer-config ...</msg>
+<status status="PASS" endtime="20180510 13:02:25.926" starttime="20180510 13:02:25.906"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${cli_output}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:25.927" level="INFO">MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.2
+peer-link           :     Port-Channel101
+peer-config         :          consistent
+                                         
+MLAG Status:       
+state               :              Active
+negotiation status  :           Connected
+peer-link status    :                  Up
+local-int status    :                  Up
+system-id           :   0a:00:27:9c:c4:83
+                                         
+MLAG Ports:        
+Disabled            :                   0
+Configured          :                   0
+Inactive            :                   0
+Active-partial      :                   0
+Active-full         :                   2
+
+</msg>
+<status status="PASS" endtime="20180510 13:02:25.927" starttime="20180510 13:02:25.926"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:25.927" critical="yes" starttime="20180510 13:02:25.845"></status>
+</test>
+<test id="s1-t5" name="Check MLAG Status on spine-B">
+<kw name="Get Command Output" library="Expect">
+<doc>Execute the specified command on the named switch and store the</doc>
+<arguments>
+<arg>switch_id=2</arg>
+<arg>cmd=show mlag</arg>
+</arguments>
+<assign>
+<var>${mlag_status}</var>
+</assign>
+<msg timestamp="20180510 13:02:25.991" level="INFO">${mlag_status} = {1: {u'localInterface': u'Vlan4094', u'domainId': u'mlag-domain', u'peerLink': u'Port-Channel101', u'localIntfStatus': u'up', u'reloadDelayNonMlag': 300, u'peerAddress': u'192.168.1.2', u'configSanity...</msg>
+<status status="PASS" endtime="20180510 13:02:25.991" starttime="20180510 13:02:25.928"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${mlag_status}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:25.992" level="INFO">{1: {u'localInterface': u'Vlan4094', u'domainId': u'mlag-domain', u'peerLink': u'Port-Channel101', u'localIntfStatus': u'up', u'reloadDelayNonMlag': 300, u'peerAddress': u'192.168.1.2', u'configSanity': u'consistent', u'portsErrdisabled': False, u'state': u'active', u'reloadDelay': 300, u'systemId': u'0a:00:27:9c:c4:83', u'negStatus': u'connected', u'peerLinkStatus': u'up', u'mlagPorts': {u'Disabled': 0, u'Active-partial': 0, u'Configured': 0, u'Inactive': 0, u'Active-full': 2}}, 2: {u'localInterface': u'Vlan4094', u'domainId': u'mlag-domain', u'peerLink': u'Port-Channel101', u'localIntfStatus': u'up', u'reloadDelayNonMlag': 300, u'peerAddress': u'192.168.1.1', u'configSanity': u'consistent', u'portsErrdisabled': False, u'state': u'active', u'reloadDelay': 300, u'systemId': u'0a:00:27:9c:c4:83', u'negStatus': u'connected', u'peerLinkStatus': u'up', u'mlagPorts': {u'Disabled': 0, u'Active-partial': 0, u'Configured': 0, u'Inactive': 0, u'Active-full': 2}}}</msg>
+<status status="PASS" endtime="20180510 13:02:25.992" starttime="20180510 13:02:25.992"></status>
+</kw>
+<kw name="Expect" library="Expect">
+<doc>This keyword provides a method of testing various types of values</doc>
+<arguments>
+<arg>state</arg>
+<arg>to be</arg>
+<arg>active</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:25.993" starttime="20180510 13:02:25.992"></status>
+</kw>
+<kw name="Record Output" library="Expect">
+<doc>Log the provided command. If no command is provided then log the</doc>
+<arguments>
+<arg>switch_id=2</arg>
+<arg>cmd=show mlag</arg>
+</arguments>
+<assign>
+<var>${cli_output}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.016" level="INFO">MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.1
+peer-link           :     Port-Channel101
+peer-config         :          consistent
+                                         
+MLAG Status:       
+state               :              Active
+negotiation status  :           Connected
+peer-link status    :                  Up
+local-int status    :                  Up
+system-id           :   0a:00:27:9c:c4:83
+                                         
+MLAG Ports:        
+Disabled            :                   0
+Configured          :                   0
+Inactive            :                   0
+Active-partial      :                   0
+Active-full         :                   2
+
+</msg>
+<msg timestamp="20180510 13:02:26.017" level="INFO">${cli_output} = MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.1
+peer-link           :     Port-Channel101
+peer-config ...</msg>
+<status status="PASS" endtime="20180510 13:02:26.017" starttime="20180510 13:02:25.993"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${cli_output}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:26.017" level="INFO">MLAG Configuration:
+domain-id           :         mlag-domain
+local-interface     :            Vlan4094
+peer-address        :         192.168.1.1
+peer-link           :     Port-Channel101
+peer-config         :          consistent
+                                         
+MLAG Status:       
+state               :              Active
+negotiation status  :           Connected
+peer-link status    :                  Up
+local-int status    :                  Up
+system-id           :   0a:00:27:9c:c4:83
+                                         
+MLAG Ports:        
+Disabled            :                   0
+Configured          :                   0
+Inactive            :                   0
+Active-partial      :                   0
+Active-full         :                   2
+
+</msg>
+<status status="PASS" endtime="20180510 13:02:26.017" starttime="20180510 13:02:26.017"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:26.018" critical="yes" starttime="20180510 13:02:25.927"></status>
+</test>
+<test id="s1-t6" name="Check VARP Status on spine-A">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.019" starttime="20180510 13:02:26.019"></status>
+</kw>
+<kw name="Run Cmds" library="AristaLibrary">
+<doc>Run Cmds allows low-level access to run any eAPI command against your</doc>
+<arguments>
+<arg>show ip virtual-router</arg>
+</arguments>
+<assign>
+<var>${varp_status}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.038" level="INFO">${varp_status} = {u'jsonrpc': u'2.0', u'id': u'4352246480', u'result': [{u'virtualMac': u'00:1c:73:00:00:a0', u'virtualRouters': [{u'protocolStatus': u'up', u'interfaceStatus': u'up', u'virtualIps': [u'100.1.1.10'], u...</msg>
+<status status="PASS" endtime="20180510 13:02:26.038" starttime="20180510 13:02:26.019"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${varp_status}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:26.039" level="INFO">{u'jsonrpc': u'2.0', u'id': u'4352246480', u'result': [{u'virtualMac': u'00:1c:73:00:00:a0', u'virtualRouters': [{u'protocolStatus': u'up', u'interfaceStatus': u'up', u'virtualIps': [u'100.1.1.10'], u'interface': u'Vlan100', u'vrfName': u'default', u'ipAddress': {u'ip': u'100.1.1.1', u'mask': 24}}], u'advertiseInterval': 30}]}</msg>
+<status status="PASS" endtime="20180510 13:02:26.039" starttime="20180510 13:02:26.038"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${varp_status['result'][0]['virtualRouters'][0]['protocolStatus']}</arg>
+<arg>up</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.040" starttime="20180510 13:02:26.039"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:26.041" critical="yes" starttime="20180510 13:02:26.018"></status>
+</test>
+<test id="s1-t7" name="Check VARP Status on spine-B">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.042" starttime="20180510 13:02:26.042"></status>
+</kw>
+<kw name="Run Cmds" library="AristaLibrary">
+<doc>Run Cmds allows low-level access to run any eAPI command against your</doc>
+<arguments>
+<arg>show ip virtual-router</arg>
+</arguments>
+<assign>
+<var>${varp_status}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.054" level="INFO">${varp_status} = {u'jsonrpc': u'2.0', u'id': u'4352247312', u'result': [{u'virtualMac': u'00:1c:73:00:00:a0', u'virtualRouters': [{u'protocolStatus': u'up', u'interfaceStatus': u'up', u'virtualIps': [u'100.1.1.10'], u...</msg>
+<status status="PASS" endtime="20180510 13:02:26.054" starttime="20180510 13:02:26.043"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${varp_status}</arg>
+</arguments>
+<msg timestamp="20180510 13:02:26.054" level="INFO">{u'jsonrpc': u'2.0', u'id': u'4352247312', u'result': [{u'virtualMac': u'00:1c:73:00:00:a0', u'virtualRouters': [{u'protocolStatus': u'up', u'interfaceStatus': u'up', u'virtualIps': [u'100.1.1.10'], u'interface': u'Vlan100', u'vrfName': u'default', u'ipAddress': {u'ip': u'100.1.1.2', u'mask': 24}}], u'advertiseInterval': 30}]}</msg>
+<status status="PASS" endtime="20180510 13:02:26.054" starttime="20180510 13:02:26.054"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${varp_status['result'][0]['virtualRouters'][0]['protocolStatus']}</arg>
+<arg>up</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.055" starttime="20180510 13:02:26.055"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:26.055" critical="yes" starttime="20180510 13:02:26.041"></status>
+</test>
+<test id="s1-t8" name="Test if ping to IPv4 VARP Gateway passes from leaf-A">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.057" starttime="20180510 13:02:26.057"></status>
+</kw>
+<kw name="Run Cmds" library="AristaLibrary">
+<doc>Run Cmds allows low-level access to run any eAPI command against your</doc>
+<arguments>
+<arg>ping 100.1.1.10</arg>
+<arg>encoding=text</arg>
+</arguments>
+<assign>
+<var>${ping_output}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.212" level="INFO">${ping_output} = {u'jsonrpc': u'2.0', u'id': u'4352248144', u'result': [{u'output': u'PING 100.1.1.10 (100.1.1.10) 72(100) bytes of data.\n80 bytes from 100.1.1.10: icmp_seq=1 ttl=64 time=16.4 ms\n80 bytes from 100.1....</msg>
+<status status="PASS" endtime="20180510 13:02:26.212" starttime="20180510 13:02:26.057"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${ping_output}</arg>
+<arg>result</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.212" level="INFO">${result} = [{u'output': u'PING 100.1.1.10 (100.1.1.10) 72(100) bytes of data.\n80 bytes from 100.1.1.10: icmp_seq=1 ttl=64 time=16.4 ms\n80 bytes from 100.1.1.10: icmp_seq=2 ttl=64 time=14.6 ms\n80 bytes from 10...</msg>
+<status status="PASS" endtime="20180510 13:02:26.212" starttime="20180510 13:02:26.212"></status>
+</kw>
+<kw name="Should Match Regexp" library="BuiltIn">
+<doc>Fails if ``string`` does not match ``pattern`` as a regular expression.</doc>
+<arguments>
+<arg>${result[0]['output']}</arg>
+<arg>(\\d+)% packet loss</arg>
+</arguments>
+<assign>
+<var>${match}</var>
+<var>${group1}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.213" level="INFO">${match} = 0% packet loss</msg>
+<msg timestamp="20180510 13:02:26.213" level="INFO">${group1} = 0</msg>
+<status status="PASS" endtime="20180510 13:02:26.213" starttime="20180510 13:02:26.213"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${group1}</arg>
+<arg>0</arg>
+<arg>msg="Packets lost percent not zero!!!"</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.214" starttime="20180510 13:02:26.213"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:26.214" critical="yes" starttime="20180510 13:02:26.056"></status>
+</test>
+<test id="s1-t9" name="Test if ping to IPv4 VARP Gateway passes from leaf-B">
+<kw name="Change To Switch" library="AristaLibrary">
+<doc>Change To Switch changes the active switch for all following keywords.</doc>
+<arguments>
+<arg>4</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.215" starttime="20180510 13:02:26.215"></status>
+</kw>
+<kw name="Run Cmds" library="AristaLibrary">
+<doc>Run Cmds allows low-level access to run any eAPI command against your</doc>
+<arguments>
+<arg>ping 100.1.1.10</arg>
+<arg>encoding=text</arg>
+</arguments>
+<assign>
+<var>${ping_output}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.410" level="INFO">${ping_output} = {u'jsonrpc': u'2.0', u'id': u'4352248592', u'result': [{u'output': u'PING 100.1.1.10 (100.1.1.10) 72(100) bytes of data.\n80 bytes from 100.1.1.10: icmp_seq=1 ttl=64 time=17.7 ms\n80 bytes from 100.1....</msg>
+<status status="PASS" endtime="20180510 13:02:26.410" starttime="20180510 13:02:26.215"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${ping_output}</arg>
+<arg>result</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.411" level="INFO">${result} = [{u'output': u'PING 100.1.1.10 (100.1.1.10) 72(100) bytes of data.\n80 bytes from 100.1.1.10: icmp_seq=1 ttl=64 time=17.7 ms\n80 bytes from 100.1.1.10: icmp_seq=2 ttl=64 time=16.0 ms\n80 bytes from 10...</msg>
+<status status="PASS" endtime="20180510 13:02:26.411" starttime="20180510 13:02:26.411"></status>
+</kw>
+<kw name="Should Match Regexp" library="BuiltIn">
+<doc>Fails if ``string`` does not match ``pattern`` as a regular expression.</doc>
+<arguments>
+<arg>${result[0]['output']}</arg>
+<arg>(\\d+)% packet loss</arg>
+</arguments>
+<assign>
+<var>${match}</var>
+<var>${group1}</var>
+</assign>
+<msg timestamp="20180510 13:02:26.411" level="INFO">${match} = 0% packet loss</msg>
+<msg timestamp="20180510 13:02:26.411" level="INFO">${group1} = 0</msg>
+<status status="PASS" endtime="20180510 13:02:26.412" starttime="20180510 13:02:26.411"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${group1}</arg>
+<arg>0</arg>
+<arg>msg="Packets lost percent not zero!!!"</arg>
+</arguments>
+<status status="PASS" endtime="20180510 13:02:26.412" starttime="20180510 13:02:26.412"></status>
+</kw>
+<status status="PASS" endtime="20180510 13:02:26.412" critical="yes" starttime="20180510 13:02:26.214"></status>
+</test>
+<kw type="teardown" name="Clear All Connections" library="AristaLibrary">
+<doc>Remove all connection objects from the cache and resets the list of</doc>
+<status status="PASS" endtime="20180510 13:02:26.415" starttime="20180510 13:02:26.415"></status>
+</kw>
+<doc>A simple Robot Framework to deploy MLAG and VARP
+*Following Tests are run*:
+
+1. Enable MLAG on Spine-B
+
+2. Enable VLAN 100 SVI on Leaf-B
+
+3. Check MLAG Status on Spine-A
+
+4. Check MLAG Status on Spine-B
+
+5. Check VARP Status on Spine-A
+
+6. Check VARP Status on Spine-B
+
+7. Test if ping to IPv4 VARP Gateway passes from leaf-A
+
+8. Test if ping to IPv4 VARP Gateway passes from leaf-B
+</doc>
+<status status="PASS" endtime="20180510 13:02:26.415" starttime="20180510 13:02:10.491"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="9">Critical Tests</stat>
+<stat fail="0" pass="9">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Deploy-And-Validate" pass="9">Deploy-And-Validate</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
